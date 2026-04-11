@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Chọn bài tập -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bài tập *"
+            android:textColor="#2D2F6B"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <Spinner
+            android:id="@+id/spinnerPractice"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_input_rounded"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Nội dung câu hỏi -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nội dung câu hỏi *"
+            android:textColor="#2D2F6B"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/etContent"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:background="@drawable/bg_input_rounded"
+            android:hint="Nhập nội dung câu hỏi"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="10dp"
+            android:textColor="#2D2F6B"
+            android:textColorHint="#A0A7C8"
+            android:textSize="14sp"
+            android:layout_marginBottom="14dp" />
+
+        <!-- Giải thích -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Giải thích đáp án"
+            android:textColor="#2D2F6B"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp" />
+
+        <EditText
+            android:id="@+id/etExplanation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@drawable/bg_input_rounded"
+            android:hint="Nhập giải thích (tùy chọn)"
+            android:inputType="textMultiLine"
+            android:gravity="top"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp"
+            android:paddingTop="10dp"
+            android:textColor="#2D2F6B"
+            android:textColorHint="#A0A7C8"
+            android:textSize="14sp"
+            android:layout_marginBottom="18dp" />
+
+        <!-- ĐÁNH DẤU ĐÁP ÁN -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đáp án (✔ = Đúng)"
+            android:textColor="#2D2F6B"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <!-- Đáp án A -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <RadioButton
+                android:id="@+id/rbA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#2BBF7A"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/etAnswerA"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Đáp án A"
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#2D2F6B"
+                android:textColorHint="#A0A7C8"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Đáp án B -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <RadioButton
+                android:id="@+id/rbB"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#2BBF7A"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/etAnswerB"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Đáp án B"
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#2D2F6B"
+                android:textColorHint="#A0A7C8"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Đáp án C -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="10dp">
+
+            <RadioButton
+                android:id="@+id/rbC"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#2BBF7A"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/etAnswerC"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Đáp án C"
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#2D2F6B"
+                android:textColorHint="#A0A7C8"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <!-- Đáp án D -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rbD"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:buttonTint="#2BBF7A"
+                android:layout_marginEnd="8dp" />
+
+            <EditText
+                android:id="@+id/etAnswerD"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_input_rounded"
+                android:hint="Đáp án D"
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#2D2F6B"
+                android:textColorHint="#A0A7C8"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
