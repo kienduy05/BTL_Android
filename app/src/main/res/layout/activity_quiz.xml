@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4FF"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- ===== HEADER CARD ===== -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <!-- Câu X/Y -->
+            <TextView
+                android:id="@+id/txtQuestionIndex"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Câu 1/10"
+                android:textColor="#2D2F6B"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <!-- Đồng hồ đếm ngược -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#EEF2FF"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="0dp">
+
+                <TextView
+                    android:id="@+id/txtCountDown"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="14dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="14dp"
+                    android:paddingBottom="8dp"
+                    android:text="14:59"
+                    android:textColor="#5B7FFF"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+    <!-- ===== NỘI DUNG CÂU HỎI ===== -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp">
+
+        <TextView
+            android:id="@+id/txtQuestionContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="20dp"
+            android:text="Nội dung câu hỏi sẽ hiển thị ở đây?"
+            android:textColor="#2D2F6B"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:lineSpacingExtra="4dp" />
+
+    </androidx.cardview.widget.CardView>
+
+    <!-- ===== DANH SÁCH ĐÁP ÁN ===== -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="6dp">
+
+        <RadioGroup
+            android:id="@+id/radioGroupAnswers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <RadioButton
+                android:id="@+id/rbOption1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="10dp"
+                android:textColor="#2D2F6B"
+                android:textSize="14sp"
+                android:text="Đáp án A" />
+
+            <RadioButton
+                android:id="@+id/rbOption2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="10dp"
+                android:textColor="#2D2F6B"
+                android:textSize="14sp"
+                android:text="Đáp án B" />
+
+            <RadioButton
+                android:id="@+id/rbOption3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="10dp"
+                android:textColor="#2D2F6B"
+                android:textSize="14sp"
+                android:text="Đáp án C" />
+
+            <RadioButton
+                android:id="@+id/rbOption4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:padding="10dp"
+                android:textColor="#2D2F6B"
+                android:textSize="14sp"
+                android:text="Đáp án D" />
+
+        </RadioGroup>
+    </androidx.cardview.widget.CardView>
+
+    <!-- ===== NÚT ĐIỀU HƯỚNG ===== -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!-- Nút Câu trước (outline) -->
+        <Button
+            android:id="@+id/btnPrev"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="8dp"
+            android:text="Câu trước"
+            android:textColor="#5B7FFF"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:background="@drawable/btn_outline_blue"
+            android:stateListAnimator="@null" />
+
+        <!-- Nút Câu tiếp (nền xanh) -->
+        <Button
+            android:id="@+id/btnNext"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Câu tiếp"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:background="@drawable/btn_solid_blue"
+            android:stateListAnimator="@null" />
+
+        <!-- Nút Nộp bài (nền đỏ, mặc định ẩn) -->
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="Nộp bài"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:background="@drawable/btn_solid_red"
+            android:stateListAnimator="@null"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</LinearLayout>

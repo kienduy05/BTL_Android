@@ -41,6 +41,45 @@ public class ResultDAO {
         db.close();
         return list;
     }
+    public Result getresultbyid(int resultId) {
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM Result WHERE resultId=?", new String[]{String.valueOf(resultId)});
+        Result item = null;
+
+        if (cursor.moveToFirst()) {
+            item = new Result();
+            item.setResultId(cursor.getInt(0));
+            item.setUserId(cursor.getInt(1));
+            item.setPracticeId(cursor.getInt(2));
+            item.setScore(cursor.isNull(3) ? null : cursor.getDouble(3));
+            item.setCorrectCount(cursor.isNull(4) ? null : cursor.getInt(4));
+            item.setWrongCount(cursor.isNull(5) ? null : cursor.getInt(5));
+            item.setTotalQuestions(cursor.isNull(6) ? null : cursor.getInt(6));
+            item.setDuration(cursor.isNull(7) ? null : cursor.getInt(7));
+            item.setSubmittedAt(cursor.getString(8));
+        }
+
+        cursor.close();
+        db.close();
+        return item;
+    }
+    public long insertresult(Result result) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put("userId", result.getUserId());
+        values.put("practiceId", result.getPracticeId());
+        values.put("score", result.getScore());
+        values.put("correctCount", result.getCorrectCount());
+        values.put("wrongCount", result.getWrongCount());
+        values.put("totalQuestions", result.getTotalQuestions());
+        values.put("duration", result.getDuration());
+
+
+        long newRowId = db.insert("Result", null, values);
+        db.close();
+        return newRowId;
+    }
     /*public ArrayList<Result> getResultsByPracticeId(int practiceId) {
         ArrayList<Result> list = new ArrayList<>();
         SQLiteDatabase db = dbHelper.getReadableDatabase();

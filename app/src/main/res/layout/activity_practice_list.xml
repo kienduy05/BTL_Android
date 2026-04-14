@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F0F4FF"
@@ -22,15 +21,15 @@
                 android:id="@+id/btnBack"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:rotation="180"
                 android:src="@drawable/ic_chevron_right"
+                android:rotation="180"
                 app:tint="#2D2F6B" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:text="Lịch sử làm bài"
+                android:text="Danh sách bài tập"
                 android:textColor="#2D2F6B"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -38,12 +37,11 @@
     </androidx.cardview.widget.CardView>
 
     <ListView
-        android:id="@+id/lvHistory"
+        android:id="@+id/lvPractice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
         android:divider="@android:color/transparent"
         android:dividerHeight="12dp"
-        android:padding="16dp" />
-
+        android:padding="16dp"
+        android:clipToPadding="false" />
 </LinearLayout>
