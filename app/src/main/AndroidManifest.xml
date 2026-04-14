@@ -11,6 +11,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.QuizApp">
+        <activity android:name=".Activities.Admin.AdminDashboardActivity" android:exported="false"/>
+        <activity android:name=".Activities.Admin.AdminCategoryActivity" android:exported="false"/>
+        <activity android:name=".Activities.Admin.AdminPracticeActivity" android:exported="false"/>
+        <activity android:name=".Activities.Admin.AdminQuestionActivity" android:exported="false"/>
+
         <activity
             android:name=".Activities.User.ProfileActivity"
             android:exported="false" />

@@ -9,6 +9,7 @@
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- Danh mục -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,6 +28,7 @@
             android:paddingEnd="14dp"
             android:layout_marginBottom="14dp" />
 
+        <!-- Tên bài tập -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,6 +52,7 @@
             android:textSize="14sp"
             android:layout_marginBottom="14dp" />
 
+        <!-- Mô tả -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -75,10 +78,12 @@
             android:textSize="14sp"
             android:layout_marginBottom="14dp" />
 
+        <!-- Thời gian & Số câu -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginBottom="18dp">
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -140,6 +145,54 @@
                     android:textSize="14sp" />
             </LinearLayout>
         </LinearLayout>
+
+        <!-- TIÊU ĐỀ CHỌN CÂU HỎI -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Chọn câu hỏi"
+                android:textColor="#2D2F6B"
+                android:textSize="13sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSelectedCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đã chọn: 0"
+                android:textColor="#5B7FFF"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Thông báo chưa chọn danh mục -->
+        <TextView
+            android:id="@+id/tvNoQuestion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:background="@drawable/bg_input_rounded"
+            android:text="Chọn danh mục để xem câu hỏi"
+            android:textColor="#A0A7C8"
+            android:textSize="12sp"
+            android:visibility="visible" />
+
+        <!-- ListView câu hỏi checkbox -->
+        <ListView
+            android:id="@+id/lvQuestionSelect"
+            android:layout_width="match_parent"
+            android:layout_height="280dp"
+            android:divider="@null"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>
