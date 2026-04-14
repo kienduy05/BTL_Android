@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class AppQuizDB extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "QuizAppDB";
-    public static final int DB_VERSION = 2;
+    public static final int DB_VERSION = 3;
 
     public AppQuizDB(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -72,7 +72,7 @@ public class AppQuizDB extends SQLiteOpenHelper {
                 "wrongCount INTEGER, " +
                 "totalQuestions INTEGER, " +
                 "duration INTEGER, " +
-                "submittedAt DATETIME DEFAULT CURRENT_TIMESTAMP)");
+                "submittedAt DATETIME DEFAULT (datetime('now', 'localtime')))");
 
         // RESULT DETAIL
         db.execSQL("CREATE TABLE ResultDetail (" +
