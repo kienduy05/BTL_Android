@@ -9,8 +9,6 @@
     <item
         android:id="@+id/menuDelete"
         android:title="🗑️ Xóa" />
-    <item
-        android:id="@+id/menuXemKetQua"
-        android:title="🔍 Xem kết quả" />
+
 
 </menu>

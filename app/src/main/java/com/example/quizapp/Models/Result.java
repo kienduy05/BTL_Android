@@ -94,6 +94,15 @@ public class Result {
     public String getSubmittedAt() {
         return submittedAt;
     }
+    private String userName;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public void setSubmittedAt(String submittedAt) {
         this.submittedAt = submittedAt;

@@ -1,6 +1,7 @@
 package com.example.quizapp.Activities.Admin;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -93,6 +94,8 @@ public class AdminPracticeActivity extends AppCompatActivity {
                     showDialog(selected);
                 } else if (menuItem.getItemId() == R.id.menuDelete) {
                     showDeleteDialog(selected);
+                } else if (menuItem.getItemId() == R.id.menuXemKetQua) {
+                    openResultScreen(selected);
                 }
                 return true;
             });
@@ -112,7 +115,12 @@ public class AdminPracticeActivity extends AppCompatActivity {
         super.onResume();
         loadData();
     }
-
+    private void openResultScreen(Practice practice) {
+        Intent intent = new Intent(this, AdminPracticeResultsActivity.class);
+        intent.putExtra("practiceId", practice.getPracticeId());
+        intent.putExtra("practiceName", practice.getPracticeName());
+        startActivity(intent);
+    }
     private void loadData() {
         practiceList = practiceDAO.getallpractice();
         categoryList = categoryDAO.getallcategory();
