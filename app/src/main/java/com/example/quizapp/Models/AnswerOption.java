@@ -10,8 +10,7 @@ public class AnswerOption {
     public AnswerOption() {
     }
 
-    public AnswerOption(int answerOptionId, int questionId, String answerText, int isCorrect, Integer optionOrder) {
-        this.answerOptionId = answerOptionId;
+    public AnswerOption(int questionId, String answerText, int isCorrect, Integer optionOrder) {
         this.questionId = questionId;
         this.answerText = answerText;
         this.isCorrect = isCorrect;

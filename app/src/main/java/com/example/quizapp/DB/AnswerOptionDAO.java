@@ -37,7 +37,37 @@ public class AnswerOptionDAO {
         db.close();
         return list;
     }
+    public ArrayList<AnswerOption> getansweroptionbyquestionid(int questionId) {
+        ArrayList<AnswerOption> list = new ArrayList<>();
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM AnswerOption WHERE questionId=? ORDER BY optionOrder",
+                new String[]{String.valueOf(questionId)});
 
+        if (cursor.moveToFirst()) {
+            do {
+                AnswerOption item = new AnswerOption();
+                item.setAnswerOptionId(cursor.getInt(0));
+                item.setQuestionId(cursor.getInt(1));
+                item.setAnswerText(cursor.getString(2));
+                item.setIsCorrect(cursor.getInt(3));
+                item.setOptionOrder(cursor.isNull(4) ? null : cursor.getInt(4));
+                list.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+        return list;
+    }
+
+    // Xóa tất cả đáp án theo questionId
+    public int deletebyquestionid(int questionId) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        int result = db.delete("AnswerOption", "questionId=?",
+                new String[]{String.valueOf(questionId)});
+        db.close();
+        return result;
+    }
     public AnswerOption getansweroptionbyid(int id) {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery("SELECT * FROM AnswerOption WHERE answerOptionId=?",
