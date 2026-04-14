@@ -221,4 +221,18 @@ public class AccountDAO {
         db.close();
         return result;
     }
+    public boolean hasResult(int userId){
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(
+                "SELECT * FROM Result WHERE userId=?",
+                new String[]{String.valueOf(userId)}
+        );
+
+        boolean exists = cursor.moveToFirst();
+        cursor.close();
+        db.close();
+
+        return exists;
+    }
 }
