@@ -171,6 +171,7 @@ public class AdminPracticeActivity extends AppCompatActivity {
         spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 if (position == 0) {
                     lvQuestionSelect.setVisibility(View.GONE);
                     tvNoQuestion.setVisibility(View.VISIBLE);
@@ -178,19 +179,25 @@ public class AdminPracticeActivity extends AppCompatActivity {
                     return;
                 }
 
-                int selectedCatId = categoryList.get(position - 1).getCategoryId();
-                ArrayList<Question> questionsByCat = questionDAO.getquestionbycategoryid(selectedCatId);
+                ArrayList<Question> questions;
 
-                if (questionsByCat.isEmpty()) {
+                if (isEdit) {
+                    questions = questionDAO.getquestionbypracticeid(practice.getPracticeId());
+                } else {
+                    int selectedCatId = categoryList.get(position - 1).getCategoryId();
+                    questions = questionDAO.getquestionbycategoryid(selectedCatId);
+                }
+
+                if (questions.isEmpty()) {
                     lvQuestionSelect.setVisibility(View.GONE);
                     tvNoQuestion.setVisibility(View.VISIBLE);
-                    tvNoQuestion.setText("Danh mục này chưa có câu hỏi nào");
+                    tvNoQuestion.setText("Không có câu hỏi");
                 } else {
                     tvNoQuestion.setVisibility(View.GONE);
                     lvQuestionSelect.setVisibility(View.VISIBLE);
 
                     QuestionCheckboxAdapter cbAdapter = new QuestionCheckboxAdapter(
-                            AdminPracticeActivity.this, questionsByCat, selectedQuestionIds);
+                            AdminPracticeActivity.this, questions, selectedQuestionIds);
 
                     cbAdapter.setOnSelectionChangedListener(count -> {
                         tvSelectedCount.setText("Đã chọn: " + count);
