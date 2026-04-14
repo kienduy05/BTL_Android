@@ -1,6 +1,7 @@
 package com.example.quizapp.Activities.Admin;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -93,6 +94,8 @@ public class AdminPracticeActivity extends AppCompatActivity {
                     showDialog(selected);
                 } else if (menuItem.getItemId() == R.id.menuDelete) {
                     showDeleteDialog(selected);
+                } else if (menuItem.getItemId() == R.id.menuXemKetQua) {
+                    openResultScreen(selected);
                 }
                 return true;
             });
@@ -112,7 +115,12 @@ public class AdminPracticeActivity extends AppCompatActivity {
         super.onResume();
         loadData();
     }
-
+    private void openResultScreen(Practice practice) {
+        Intent intent = new Intent(this, AdminPracticeResultsActivity.class);
+        intent.putExtra("practiceId", practice.getPracticeId());
+        intent.putExtra("practiceName", practice.getPracticeName());
+        startActivity(intent);
+    }
     private void loadData() {
         practiceList = practiceDAO.getallpractice();
         categoryList = categoryDAO.getallcategory();
@@ -171,6 +179,7 @@ public class AdminPracticeActivity extends AppCompatActivity {
         spinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 if (position == 0) {
                     lvQuestionSelect.setVisibility(View.GONE);
                     tvNoQuestion.setVisibility(View.VISIBLE);
@@ -178,19 +187,25 @@ public class AdminPracticeActivity extends AppCompatActivity {
                     return;
                 }
 
-                int selectedCatId = categoryList.get(position - 1).getCategoryId();
-                ArrayList<Question> questionsByCat = questionDAO.getquestionbycategoryid(selectedCatId);
+                ArrayList<Question> questions;
 
-                if (questionsByCat.isEmpty()) {
+                if (isEdit) {
+                    questions = questionDAO.getquestionbypracticeid(practice.getPracticeId());
+                } else {
+                    int selectedCatId = categoryList.get(position - 1).getCategoryId();
+                    questions = questionDAO.getquestionbycategoryid(selectedCatId);
+                }
+
+                if (questions.isEmpty()) {
                     lvQuestionSelect.setVisibility(View.GONE);
                     tvNoQuestion.setVisibility(View.VISIBLE);
-                    tvNoQuestion.setText("Danh mục này chưa có câu hỏi nào");
+                    tvNoQuestion.setText("Không có câu hỏi");
                 } else {
                     tvNoQuestion.setVisibility(View.GONE);
                     lvQuestionSelect.setVisibility(View.VISIBLE);
 
                     QuestionCheckboxAdapter cbAdapter = new QuestionCheckboxAdapter(
-                            AdminPracticeActivity.this, questionsByCat, selectedQuestionIds);
+                            AdminPracticeActivity.this, questions, selectedQuestionIds);
 
                     cbAdapter.setOnSelectionChangedListener(count -> {
                         tvSelectedCount.setText("Đã chọn: " + count);

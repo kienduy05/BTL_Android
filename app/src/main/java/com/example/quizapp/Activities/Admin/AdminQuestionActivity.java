@@ -102,7 +102,7 @@ public class AdminQuestionActivity extends AppCompatActivity {
         lvQuestions.setOnItemLongClickListener((parent, view, position, id) -> {
             Question selected = filteredList.get(position);
             PopupMenu popup = new PopupMenu(this, view);
-            popup.getMenuInflater().inflate(R.menu.menu1, popup.getMenu());
+            popup.getMenuInflater().inflate(R.menu.menu2, popup.getMenu());
             popup.setOnMenuItemClickListener(menuItem -> {
                 if (menuItem.getItemId() == R.id.menuEdit) {
                     showDialog(selected);

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="12dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Tên bài tập -->
+    <TextView
+        android:id="@+id/tvPracticeName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Tên bài tập"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="8dp"/>
+
+    <!-- Thống kê nhỏ -->
+    <TextView
+        android:id="@+id/tvSummary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="0 lượt làm"
+        android:textSize="14sp"
+        android:paddingBottom="8dp"/>
+
+    <!-- List kết quả -->
+    <ListView
+        android:id="@+id/lvResults"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:dividerHeight="8dp"/>
+
+    <!-- Khi không có dữ liệu -->
+    <TextView
+        android:id="@+id/tvEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chưa có kết quả nào"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="#888"/>
+
+</LinearLayout>
