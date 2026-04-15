@@ -59,7 +59,23 @@
                 android:textStyle="bold" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="10dp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="3dp">
 
+        <Spinner
+            android:id="@+id/spinnerCategoryFilter"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:paddingStart="14dp"
+            android:paddingEnd="14dp" />
+    </androidx.cardview.widget.CardView>
     <!-- SEARCH -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -71,18 +87,24 @@
         app:cardCornerRadius="16dp"
         app:cardElevation="3dp">
 
-        <EditText
-            android:id="@+id/etSearch"
-            android:layout_width="match_parent"
-            android:layout_height="46dp"
-            android:background="@null"
-            android:hint="Tìm kiếm bài tập..."
-            android:inputType="text"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
-            android:textColor="#2D2F6B"
-            android:textColorHint="#A0A7C8"
-            android:textSize="14sp" />
+
+
+
+
+            <EditText
+                android:id="@+id/etSearch"
+                android:layout_width="match_parent"
+                android:layout_height="46dp"
+                android:background="@null"
+                android:hint="Tìm kiếm bài tập..."
+                android:inputType="text"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
+                android:textColor="#2D2F6B"
+                android:textColorHint="#A0A7C8"
+                android:textSize="14sp" />
+
+
     </androidx.cardview.widget.CardView>
 
     <!-- EMPTY TEXT -->

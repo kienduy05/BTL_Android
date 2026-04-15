@@ -11,15 +11,30 @@ import com.example.quizapp.Models.Result;
 import com.example.quizapp.R;
 
 import java.util.ArrayList;
-
+import java.text.SimpleDateFormat;
+import java.util.Date;
 public class ResultAdapter extends BaseAdapter {
+    private String calculateStartTime(String submittedAt, Integer duration) {
+        try {
+            if (submittedAt == null || duration == null) return "Không có dữ liệu";
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date submittedDate = sdf.parse(submittedAt);
+            long startMillis = submittedDate.getTime() - (duration * 1000L);
+            Date startDate = new Date(startMillis);
+            SimpleDateFormat displayFormat = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+            return displayFormat.format(startDate);
 
+        } catch (Exception e) {
+            return "Lỗi thời gian";
+        }
+    }
     private final Context context;
     private final ArrayList<Result> list;
 
     public ResultAdapter(Context context, ArrayList<Result> list) {
         this.context = context;
         this.list = list;
+
     }
 
     @Override
@@ -51,7 +66,7 @@ public class ResultAdapter extends BaseAdapter {
             holder.tvScore  = convertView.findViewById(R.id.tvScore);
             holder.tvDetail = convertView.findViewById(R.id.tvDetail);
             holder.tvTime   = convertView.findViewById(R.id.tvTime);
-
+            holder.tvTimeStart   = convertView.findViewById(R.id.tvTimeStart);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -75,11 +90,12 @@ public class ResultAdapter extends BaseAdapter {
         } else {
             holder.tvTime.setText("Không có dữ liệu");
         }
-
+        String startTime = calculateStartTime(r.getSubmittedAt(), r.getDuration());
+        holder.tvTimeStart.setText("Thời gian Bắt đầu: " + startTime);
         return convertView;
     }
 
     static class ViewHolder {
-        TextView tvUser, tvScore, tvDetail, tvTime;
+        TextView tvUser, tvScore, tvDetail, tvTime ,tvTimeStart;
     }
 }

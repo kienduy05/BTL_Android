@@ -44,7 +44,7 @@ public class AdminPracticeActivity extends AppCompatActivity {
     Button btnAdd;
     ImageButton btnBack;
     TextView tvEmpty;
-
+    Spinner spinnerCategoryFilter;
     PracticeDAO practiceDAO;
     CategoryDAO categoryDAO;
     QuestionDAO questionDAO;
@@ -64,11 +64,11 @@ public class AdminPracticeActivity extends AppCompatActivity {
         btnAdd      = findViewById(R.id.btnAdd);
         btnBack     = findViewById(R.id.btnBack);
         tvEmpty     = findViewById(R.id.tvEmpty);
-
+        spinnerCategoryFilter = findViewById(R.id.spinnerCategoryFilter);
         practiceDAO = new PracticeDAO(this);
         categoryDAO = new CategoryDAO(this);
         questionDAO = new QuestionDAO(this);
-
+        setupCategoryFilter();
         loadData();
 
         btnBack.setOnClickListener(v -> finish());
@@ -76,12 +76,18 @@ public class AdminPracticeActivity extends AppCompatActivity {
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filterList(s.toString());
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                applyFilter();
             }
             @Override public void afterTextChanged(Editable s) {}
         });
-
+        spinnerCategoryFilter.setOnItemSelectedListener(new android.widget.AdapterView.OnItemSelectedListener() {
+            @Override public void onItemSelected(android.widget.AdapterView<?> parent, View view, int position, long id) {
+                applyFilter();
+            }
+            @Override public void onNothingSelected(android.widget.AdapterView<?> parent) {}
+        });
         lvPractices.setOnItemClickListener((parent, view, position, id) ->
                 showDialog(filteredList.get(position)));
 
@@ -109,11 +115,44 @@ public class AdminPracticeActivity extends AppCompatActivity {
             return insets;
         });
     }
+    // Filter theo bài tập
 
     @Override
     protected void onResume() {
         super.onResume();
         loadData();
+    }
+    private void setupCategoryFilter() {
+        categoryList = categoryDAO.getallcategory();
+        ArrayList<String> names = new ArrayList<>();
+        names.add("Tất cả bài tập");
+        for (Category p : categoryList) names.add(p.getCategoryName());
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, names);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerCategoryFilter.setAdapter(spinnerAdapter);
+    }
+    private void applyFilter() {
+        String query = etSearch.getText().toString().toLowerCase();
+        int selectedPos = spinnerCategoryFilter.getSelectedItemPosition();
+        filteredList.clear();
+        for (Practice p : practiceList) {
+            // lọc theo tên
+            boolean matchName = p.getPracticeName().toLowerCase().contains(query);
+            // lọc theo category
+            boolean matchCategory;
+            if (selectedPos == 0) {
+                matchCategory = true; // tất cả
+            } else {
+                int selectedCatId = categoryList.get(selectedPos - 1).getCategoryId();
+                matchCategory = (p.getCategoryId() == selectedCatId);
+            }
+            if (matchName && matchCategory) {
+                filteredList.add(p);
+            }
+        }
+        adapter.notifyDataSetChanged();
+        updateEmpty();
     }
     private void openResultScreen(Practice practice) {
         Intent intent = new Intent(this, AdminPracticeResultsActivity.class);
@@ -130,16 +169,6 @@ public class AdminPracticeActivity extends AppCompatActivity {
         updateEmpty();
     }
 
-    private void filterList(String query) {
-        filteredList.clear();
-        for (Practice p : practiceList) {
-            if (p.getPracticeName().toLowerCase().contains(query.toLowerCase())) {
-                filteredList.add(p);
-            }
-        }
-        adapter.notifyDataSetChanged();
-        updateEmpty();
-    }
 
     private void updateEmpty() {
         tvEmpty.setVisibility(filteredList.isEmpty() ? View.VISIBLE : View.GONE);
@@ -260,11 +289,32 @@ public class AdminPracticeActivity extends AppCompatActivity {
                 return;
             }
 
+            // ===== CATEGORY =====
             int selectedCatId = categoryList.get(spinnerCategory.getSelectedItemPosition() - 1).getCategoryId();
-            Integer timeLimit = timeStr.isEmpty() ? null : Integer.parseInt(timeStr);
-            Integer totalQ    = selectedQuestionIds.size() > 0
-                    ? selectedQuestionIds.size()
-                    : (totalStr.isEmpty() ? null : Integer.parseInt(totalStr));
+            Integer timeLimit = null;
+            if (!timeStr.isEmpty()) {
+                try {
+                    timeLimit = Integer.parseInt(timeStr);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Thời gian không hợp lệ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            if (selectedQuestionIds.isEmpty() && totalStr.isEmpty()) {
+                Toast.makeText(this, "Vui lòng chọn hoặc nhập số câu hỏi!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            Integer totalQ;
+            if (!selectedQuestionIds.isEmpty()) {
+                totalQ = selectedQuestionIds.size();
+            } else {
+                try {
+                    totalQ = Integer.parseInt(totalStr);
+                } catch (Exception e) {
+                    Toast.makeText(this, "Số câu hỏi không hợp lệ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
 
             if (isEdit) {
                 practice.setCategoryId(selectedCatId);

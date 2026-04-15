@@ -29,7 +29,12 @@
 
     <TextView
         android:id="@+id/tvTime"
-        android:text="Thời gian"
+        android:text="Thời gian làm bài"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:id="@+id/tvTimeStart"
+        android:text="Thời gian bắt đầu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
