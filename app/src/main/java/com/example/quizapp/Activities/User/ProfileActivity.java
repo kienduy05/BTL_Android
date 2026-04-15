@@ -1,7 +1,10 @@
 package com.example.quizapp.Activities.User;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -9,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -18,9 +22,11 @@ import com.example.quizapp.DB.AccountDAO;
 import com.example.quizapp.Models.Account;
 import com.example.quizapp.R;
 
+import java.net.URI;
+
 public class ProfileActivity extends AppCompatActivity {
 
-    ImageView imgAvatar;
+    ImageView imgAva, btnBack;
     TextView txtCreatedAt;
     EditText edtFullName;
     EditText edtEmail;
@@ -31,6 +37,28 @@ public class ProfileActivity extends AppCompatActivity {
     AccountDAO accountDAO;
     Account currentAccount;
     int userId;
+    Uri selectedImageUri;
+    static final int PICK_IMAGE = 1;
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_IMAGE && data != null) {
+                selectedImageUri = data.getData();
+
+                if (selectedImageUri != null) {
+                    getContentResolver().takePersistableUriPermission(
+                            selectedImageUri,
+                            Intent.FLAG_GRANT_READ_URI_PERMISSION
+                    );
+
+                    imgAva.setImageURI(selectedImageUri);
+                }
+            }
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +68,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         accountDAO = new AccountDAO(this);
 
-        imgAvatar = findViewById(R.id.imgAvatar);
+        imgAva = findViewById(R.id.imgAva);
+        btnBack = findViewById(R.id.btnBack);
         txtCreatedAt = findViewById(R.id.txtCreatedAt);
         edtFullName = findViewById(R.id.edtFullName);
         edtEmail = findViewById(R.id.edtEmail);
@@ -53,6 +82,26 @@ public class ProfileActivity extends AppCompatActivity {
         loadProfile(userId);
 
         btnUpdateProfile.setOnClickListener(v -> updateProfile());
+
+
+
+        imgAva.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                intent.setType("image/*");
+                intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                startActivityForResult(intent, PICK_IMAGE);
+            }
+        });
+
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -78,6 +127,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         edtFullName.setText(currentAccount.getFullName());
         edtEmail.setText(currentAccount.getEmail());
+
+        if (currentAccount.getAvatarUrl() != null && !currentAccount.getAvatarUrl().isEmpty()) {
+            selectedImageUri = Uri.parse(currentAccount.getAvatarUrl());
+            imgAva.setImageURI(selectedImageUri);
+        }
 
         if (currentAccount.getCreatedAt() != null) {
             txtCreatedAt.setText("Ngày tạo tài khoản: " + currentAccount.getCreatedAt());
@@ -129,6 +183,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         currentAccount.setFullName(fullName);
         currentAccount.setPassword(passwordToSave);
+
+        if (selectedImageUri != null) {
+            currentAccount.setAvatarUrl(selectedImageUri.toString());
+        }
 
         int result = accountDAO.updateAccount(currentAccount);
 

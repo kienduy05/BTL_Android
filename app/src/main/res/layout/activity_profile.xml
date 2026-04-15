@@ -70,12 +70,11 @@
                 app:cardElevation="8dp">
 
                 <ImageView
-                    android:id="@+id/imgAvatar"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_register_user"
-                    app:tint="#6C8EFF" />
+                    android:id="@+id/imgAva"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_register_user" />
             </androidx.cardview.widget.CardView>
 
             <!-- Created date badge -->

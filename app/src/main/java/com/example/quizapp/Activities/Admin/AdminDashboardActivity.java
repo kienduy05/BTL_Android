@@ -2,6 +2,7 @@ package com.example.quizapp.Activities.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -37,6 +38,7 @@ public class AdminDashboardActivity extends AppCompatActivity {
         btnManageQuestion = findViewById(R.id.btnManageQuestion);
         btnManageAccount  = findViewById(R.id.btnManageAccount);
         btnLogout         = findViewById(R.id.btnLogout);
+
 
         // Lấy thông tin admin
         accountDAO = new AccountDAO(this);

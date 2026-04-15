@@ -3,6 +3,7 @@ package com.example.quizapp.Adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,6 +55,10 @@ public class AccountAdapter extends ArrayAdapter<Account> {
         txtName.setText(acc.getFullName());
         txtEmail.setText(acc.getEmail());
         txtRole.setText(acc.getRole() == 1 ? "Admin" : "User");
+
+        if(acc.getRole()==1){
+            txtRole.setTextColor(Color.RED);
+        }
 
         btnEdit.setOnClickListener(v -> {
             Intent intent = new Intent(context, AdminEditAccountActivity.class);

@@ -31,7 +31,7 @@
                 android:id="@+id/btnBack"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
-                android:background="@drawable/bg_circle_light"
+                android:background="@drawable/ic_chevron_right"
 
                 android:rotation="180"
                 app:tint="#7B5CF5" />
