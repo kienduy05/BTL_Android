@@ -235,4 +235,19 @@ public class AccountDAO {
 
         return exists;
     }
+    public boolean ResetPassword(Account acc) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("password", "123456");
+
+        int result = db.update(
+                "Account",
+                values,
+                "userId=?",
+                new String[]{String.valueOf(acc.getUserId())}
+        );
+
+        db.close();
+        return result > 0;
+    }
 }

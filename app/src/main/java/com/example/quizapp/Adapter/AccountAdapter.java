@@ -49,6 +49,7 @@ public class AccountAdapter extends ArrayAdapter<Account> {
         TextView txtRole = convertView.findViewById(R.id.txtRole);
         Button btnEdit = convertView.findViewById(R.id.btnEdit);
         Button btnDelete = convertView.findViewById(R.id.btnDelete);
+        Button btnReset = convertView.findViewById(R.id.btnReset);
 
         txtName.setText(acc.getFullName());
         txtEmail.setText(acc.getEmail());
@@ -98,6 +99,37 @@ public class AccountAdapter extends ArrayAdapter<Account> {
                     .setNegativeButton("Hủy", null)
                     .show();
         });
+
+        btnReset.setOnClickListener(v -> {
+            new AlertDialog.Builder(context)
+                    .setTitle("Xác nhận")
+                    .setMessage("Bạn có muốn reset mật khẩu của tài khoản này không?")
+                    .setPositiveButton("Reset", (dialog, which) -> {
+
+                        boolean check = dao.ResetPassword(acc);
+
+                        if (check) {
+                            Account updatedAcc = dao.getAccountByID(acc.getUserId());
+                            if (updatedAcc != null) {
+                                mylist.set(position, updatedAcc);
+                                notifyDataSetChanged();
+                            }
+
+                            Toast.makeText(context,
+                                    "Reset thành công (123456)",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(context,
+                                    "Reset thất bại",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                    })
+                    .setNegativeButton("Hủy", null)
+                    .show();
+        });
+
+
 
         return convertView;
     }
