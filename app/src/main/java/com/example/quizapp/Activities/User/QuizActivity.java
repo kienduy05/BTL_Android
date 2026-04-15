@@ -37,6 +37,7 @@ public class QuizActivity extends AppCompatActivity {
     HashMap<Integer, AnswerOption> userAnswers = new HashMap<>();
 
     int currentIndex = 0;
+    private long startTimeInMillis;
     CountDownTimer timer;
 
     @Override
@@ -48,6 +49,7 @@ public class QuizActivity extends AppCompatActivity {
         loadDataFromDatabase();
         startTimer();
         displayQuestion();
+        startTimeInMillis = System.currentTimeMillis();
     }
 
     private void initViews() {
@@ -159,7 +161,10 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     private void submitQuiz() {
+        long endTime = System.currentTimeMillis();
         if (timer != null) timer.cancel();
+
+        int durationInSeconds = (int) ((endTime - startTimeInMillis) / 1000);
 
         int correctCount = 0;
         int totalQs = questionsList.size();
@@ -180,27 +185,20 @@ public class QuizActivity extends AppCompatActivity {
         result.setWrongCount(totalQs - correctCount);
         result.setTotalQuestions(totalQs);
 
+        result.setDuration(durationInSeconds);
+
         ResultDAO rDao = new ResultDAO(this);
+
         long newResultId = rDao.insertresult(result);
 
-        ResultDetailDAO detailDao = new ResultDetailDAO(this);
-        for (int i = 0; i < totalQs; i++) {
-            ResultDetail detail = new ResultDetail();
-            detail.setResultId((int) newResultId);
-            detail.setQuestionId(questionsList.get(i).getQuestionId());
-
-            AnswerOption ans = userAnswers.get(i);
-            if (ans != null) {
-                detail.setSelectedAnswerOptionId(ans.getAnswerOptionId());
-                detail.setIsCorrect(ans.getIsCorrect());
-            } else {
-                detail.setSelectedAnswerOptionId(null);
-                detail.setIsCorrect(0);
-            }
-            detailDao.insertresultdetail(detail);
+        String timeDisplay = durationInSeconds + " giây";
+        if (durationInSeconds >= 60) {
+            timeDisplay = (durationInSeconds / 60) + " phút " + (durationInSeconds % 60) + " giây";
         }
 
-        Toast.makeText(this, "Hoàn thành! Bạn đạt " + String.format("%.1f", score) + " điểm.", Toast.LENGTH_LONG).show();
+        Toast.makeText(this, "Hoàn thành! Bạn đạt " + String.format("%.1f", score) +
+                " điểm.\nThời gian: " + timeDisplay, Toast.LENGTH_LONG).show();
+
         finish();
     }
 }

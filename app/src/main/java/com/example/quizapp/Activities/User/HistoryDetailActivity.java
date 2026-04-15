@@ -21,6 +21,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
     TextView tvDetailTotalScore;
     ListView lvHistoryDetail;
     ImageView btnBackDetail;
+    TextView tvDetailTime;
 
     ResultDetailDAO resultDetailDAO;
     ResultDAO resultDAO;
@@ -33,6 +34,7 @@ public class HistoryDetailActivity extends AppCompatActivity {
         tvDetailTotalScore = findViewById(R.id.tvDetailTotalScore);
         lvHistoryDetail = findViewById(R.id.lvHistoryDetail);
         btnBackDetail = findViewById(R.id.btnBackDetail);
+        tvDetailTime = findViewById(R.id.tvDetailTime);
 
         btnBackDetail.setOnClickListener(v -> finish());
 
@@ -44,6 +46,14 @@ public class HistoryDetailActivity extends AppCompatActivity {
         Result result = resultDAO.getresultbyid(resultId);
         if (result != null) {
             tvDetailTotalScore.setText("Điểm số: " + String.format("%.1f", result.getScore()));
+            int duration = 0;
+            if (result.getDuration() != null) {
+                duration = result.getDuration();
+            }
+
+            int minutes = duration / 60;
+            int seconds = duration % 60;
+            tvDetailTime.setText(String.format("⏱️ Thời gian làm bài: %02d:%02d", minutes, seconds));
         }
 
         ArrayList<ResultDetail> allDetails = resultDetailDAO.getallresultdetail();
