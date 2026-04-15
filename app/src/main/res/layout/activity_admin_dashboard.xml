@@ -40,6 +40,7 @@
                     app:cardBackgroundColor="#5B7FFF">
 
                     <ImageView
+                        android:id="@+id/imgAva"
                         android:layout_width="32dp"
                         android:layout_height="32dp"
                         android:layout_gravity="center"

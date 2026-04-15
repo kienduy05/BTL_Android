@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +31,12 @@ public class AdminAddAccountActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
 
         btnSave.setOnClickListener(v -> {
+            String roleText = edtRole.getText().toString().trim();
+            if( Integer.parseInt(roleText) != 0 && Integer.parseInt(roleText) != 1){
+                Toast.makeText(this, "Role phải là 0 hoặc 1", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Intent data = new Intent();
             data.putExtra("fullName", edtFullName.getText().toString().trim());
             data.putExtra("email", edtEmail.getText().toString().trim());

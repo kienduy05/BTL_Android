@@ -12,6 +12,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.quizapp.DB.AccountDAO;
+import com.example.quizapp.Models.Account;
 import com.example.quizapp.R;
 
 public class AdminEditAccountActivity extends AppCompatActivity {
@@ -42,6 +44,8 @@ public class AdminEditAccountActivity extends AppCompatActivity {
         edtPassword.setText("********");
         edtRole.setText(String.valueOf(intent.getIntExtra("role", 0)));
 
+
+
         btnUpdate.setOnClickListener(v -> {
             String fullName = edtFullName.getText().toString().trim();
             String roleText = edtRole.getText().toString().trim();
@@ -51,11 +55,17 @@ public class AdminEditAccountActivity extends AppCompatActivity {
                 return;
             }
 
+
             int role;
             try {
                 role = Integer.parseInt(roleText);
             } catch (Exception e) {
                 Toast.makeText(this, "Role phải là số", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if( Integer.parseInt(roleText) != 0 && Integer.parseInt(roleText) != 1){
+                Toast.makeText(this, "Role phải là 0 hoặc 1", Toast.LENGTH_SHORT).show();
                 return;
             }
 

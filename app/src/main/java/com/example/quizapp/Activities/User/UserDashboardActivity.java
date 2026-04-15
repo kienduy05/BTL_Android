@@ -1,8 +1,10 @@
 package com.example.quizapp.Activities.User;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,6 +34,7 @@ public class UserDashboardActivity extends AppCompatActivity {
     TextView txtAverageScoreValue;
     TextView txtCorrectCountValue;
     TextView txtWrongCountValue;
+    ImageView imgAva;
 
     LinearLayout btnPractice;
     LinearLayout btnHistory;
@@ -59,11 +62,14 @@ public class UserDashboardActivity extends AppCompatActivity {
         btnHistory = findViewById(R.id.btnHistory);
         btnProfile = findViewById(R.id.btnProfile);
         btnLogout = findViewById(R.id.btnLogout);
+        imgAva = findViewById(R.id.imgAva);
+
 
         userId = getIntent().getIntExtra("userID", -1);
 
         loadUserInfo(userId);
         loadDashboardStatistics(userId);
+
 
         btnProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,9 +133,13 @@ public class UserDashboardActivity extends AppCompatActivity {
 
         if (accountNow != null) {
             txtUserName.setText(accountNow.getFullName());
+            if(accountNow.getAvatarUrl() != null){
+                imgAva.setImageURI(Uri.parse(accountNow.getAvatarUrl()));
+            }
         } else {
             txtUserName.setText("Người dùng");
         }
+
     }
 
     private void loadDashboardStatistics(int userId) {

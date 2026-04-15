@@ -2,7 +2,9 @@ package com.example.quizapp.Activities.Admin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ public class AdminAccountActivity extends AppCompatActivity {
 
     ListView lvAccount;
     Button btnAdd;
+    ImageButton btnBack;
 
     ArrayList<Account> mylist;
     AccountDAO dao;
@@ -34,6 +37,7 @@ public class AdminAccountActivity extends AppCompatActivity {
 
         lvAccount = findViewById(R.id.lvAccount);
         btnAdd = findViewById(R.id.btnAdd);
+        btnBack = findViewById(R.id.btnBack);
 
         dao = new AccountDAO(this);
         mylist = dao.getAllAccount();
@@ -44,6 +48,12 @@ public class AdminAccountActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(this, AdminAddAccountActivity.class);
             startActivityForResult(intent, REQUEST_ADD);
+        });
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
         });
     }
 

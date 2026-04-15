@@ -32,7 +32,7 @@
         android:id="@+id/edtRole"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Role (0 hoặc 1)"
+        android:hint="Role (0: user hoặc 1: admin)"
         android:inputType="number" />
 
     <Button
