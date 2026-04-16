@@ -184,12 +184,31 @@ public class QuizActivity extends AppCompatActivity {
         result.setCorrectCount(correctCount);
         result.setWrongCount(totalQs - correctCount);
         result.setTotalQuestions(totalQs);
-
         result.setDuration(durationInSeconds);
 
         ResultDAO rDao = new ResultDAO(this);
-
         long newResultId = rDao.insertresult(result);
+
+        ResultDetailDAO rdDao = new ResultDetailDAO(this);
+
+        for (int i = 0; i < totalQs; i++) {
+            Question q = questionsList.get(i);
+            AnswerOption selectedAns = userAnswers.get(i);
+
+            ResultDetail detail = new ResultDetail();
+            detail.setResultId((int) newResultId);
+            detail.setQuestionId(q.getQuestionId());
+
+            if (selectedAns != null) {
+                detail.setSelectedAnswerOptionId(selectedAns.getAnswerOptionId());
+                detail.setIsCorrect(selectedAns.getIsCorrect());
+            } else {
+                detail.setSelectedAnswerOptionId(null);
+                detail.setIsCorrect(0);
+            }
+
+            rdDao.insertresultdetail(detail);
+        }
 
         String timeDisplay = durationInSeconds + " giây";
         if (durationInSeconds >= 60) {
