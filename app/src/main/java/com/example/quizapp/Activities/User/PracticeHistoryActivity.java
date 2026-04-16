@@ -33,12 +33,11 @@ public class PracticeHistoryActivity extends AppCompatActivity {
     ResultDAO resultDAO;
     int userId;
 
-    // Các biến dùng cho tính năng Lọc
     Spinner spnCategoryFilter;
     CategoryDAO categoryDAO;
     PracticeDAO practiceDAO;
-    ArrayList<Result> fullUserHistoryList; // Chứa toàn bộ lịch sử gốc
-    ArrayList<Category> categoryList; // Chứa danh sách môn học
+    ArrayList<Result> fullUserHistoryList;
+    ArrayList<Category> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +51,13 @@ public class PracticeHistoryActivity extends AppCompatActivity {
             return insets;
         });
 
-        // 1. Ánh xạ View cơ bản
         lvHistory = findViewById(R.id.lvHistory);
         btnBack = findViewById(R.id.btnBack);
         spnCategoryFilter = findViewById(R.id.spnCategoryFilter);
 
-        // 2. Nhận userID và xử lý nút Back
         userId = getIntent().getIntExtra("userID", -1);
         btnBack.setOnClickListener(v -> finish());
 
-        // 3. Khởi tạo Database và lấy danh sách lịch sử của User
         resultDAO = new ResultDAO(this);
         categoryDAO = new CategoryDAO(this);
         practiceDAO = new PracticeDAO(this);
@@ -74,7 +70,6 @@ public class PracticeHistoryActivity extends AppCompatActivity {
             }
         }
 
-        // 4. Lấy danh sách môn học và đổ vào Spinner
         categoryList = categoryDAO.getallcategory();
         ArrayList<String> categoryNames = new ArrayList<>();
         categoryNames.add("Tất cả môn học"); // Thêm mục mặc định
@@ -86,11 +81,9 @@ public class PracticeHistoryActivity extends AppCompatActivity {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, categoryNames);
         spnCategoryFilter.setAdapter(spinnerAdapter);
 
-        // 5. Lắng nghe sự kiện khi chọn 1 môn học trong Spinner
         spnCategoryFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Gọi hàm lọc dữ liệu bên dưới
                 filterHistory(position);
             }
 
@@ -99,16 +92,12 @@ public class PracticeHistoryActivity extends AppCompatActivity {
         });
     }
 
-    // === HÀM XỬ LÝ LỌC LỊCH SỬ ===
     private void filterHistory(int spinnerPosition) {
         ArrayList<Result> filteredList = new ArrayList<>();
 
         if (spinnerPosition == 0) {
-            // Nếu chọn "Tất cả môn học" -> Hiện toàn bộ danh sách gốc
             filteredList.addAll(fullUserHistoryList);
         } else {
-            // Nếu chọn môn cụ thể -> Lấy ID của môn đó để lọc
-            // Lùi 1 index vì Spinner có mục "Tất cả" ở đầu tiên
             int selectedCategoryId = categoryList.get(spinnerPosition - 1).getCategoryId();
 
             for (Result r : fullUserHistoryList) {
@@ -119,11 +108,9 @@ public class PracticeHistoryActivity extends AppCompatActivity {
             }
         }
 
-        // Đẩy danh sách đã lọc lên ListView
         HistoryAdapter adapter = new HistoryAdapter(this, filteredList);
         lvHistory.setAdapter(adapter);
 
-        // Setup lại sự kiện click để mở chi tiết bài làm
         lvHistory.setOnItemClickListener((parent, view, position, id) -> {
             Result clickedResult = filteredList.get(position);
             Intent intent = new Intent(PracticeHistoryActivity.this, HistoryDetailActivity.class);
