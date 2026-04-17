@@ -56,23 +56,24 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="URL ảnh"
+        android:text=" Ảnh"
         android:textColor="#2D2F6B"
         android:textSize="13sp"
         android:textStyle="bold"
         android:layout_marginBottom="6dp" />
 
-    <EditText
-        android:id="@+id/etCategoryImage"
+    <Button
+        android:id="@+id/btnPickImage"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:background="@drawable/bg_input_rounded"
-        android:hint="Nhập URL ảnh (tùy chọn)"
-        android:inputType="textUri"
-        android:paddingStart="14dp"
-        android:paddingEnd="14dp"
-        android:textColor="#2D2F6B"
-        android:textColorHint="#A0A7C8"
-        android:textSize="14sp" />
+        android:text="Chọn ảnh"
+        android:layout_marginBottom="10dp"/>
+
+    <ImageView
+        android:id="@+id/imgPreview"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:background="#ddd"/>
 
 </LinearLayout>

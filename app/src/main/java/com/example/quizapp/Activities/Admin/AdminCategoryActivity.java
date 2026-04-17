@@ -1,6 +1,8 @@
 package com.example.quizapp.Activities.Admin;
 
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -9,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -35,10 +38,12 @@ public class AdminCategoryActivity extends AppCompatActivity {
     ImageButton btnBack;
     TextView tvEmpty;
 
+
     CategoryDAO categoryDAO;
     CategoryAdapter adapter;
     ArrayList<Category> categoryList, filteredList;
-
+    private static final int PICK_IMAGE = 1001;
+    private String imageUriString = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +103,23 @@ public class AdminCategoryActivity extends AppCompatActivity {
             return insets;
         });
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null) {
+            android.net.Uri imageUri = data.getData();
+
+            if (imageUri != null) {
+                imageUriString = imageUri.toString();
+
+                ImageView imgPreview = findViewById(R.id.imgPreview);
+                if (imgPreview != null) {
+                    imgPreview.setImageURI(imageUri);
+                }
+            }
+        }
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -139,18 +160,38 @@ public class AdminCategoryActivity extends AppCompatActivity {
 
         EditText etName  = dialogView.findViewById(R.id.etCategoryName);
         EditText etDesc  = dialogView.findViewById(R.id.etCategoryDescription);
-        EditText etImage = dialogView.findViewById(R.id.etCategoryImage);
+        Button btnPickImage = dialogView.findViewById(R.id.btnPickImage);
+        ImageView imgPreview = dialogView.findViewById(R.id.imgPreview);
 
+        // reset ảnh khi mở dialog
+        imageUriString = null;
+
+        // Nếu sửa
         if (isEdit) {
             etName.setText(category.getCategoryName());
             etDesc.setText(category.getCategoryDescription());
-            etImage.setText(category.getImageUrl());
+
+            if (category.getImageUrl() != null) {
+                imageUriString = category.getImageUrl();
+
+                try {
+                    imgPreview.setImageURI(Uri.parse(imageUriString));
+                } catch (Exception e) {
+                    imgPreview.setImageResource(android.R.drawable.ic_menu_gallery);
+                }
+            }
         }
+
+        // 👉 Nút chọn ảnh
+        btnPickImage.setOnClickListener(v -> {
+            Intent intent = new Intent(Intent.ACTION_PICK);
+            intent.setType("image/*");
+            startActivityForResult(intent, PICK_IMAGE);
+        });
 
         builder.setPositiveButton(isEdit ? "Cập nhật" : "Thêm", (dialog, which) -> {
             String name  = etName.getText().toString().trim();
             String desc  = etDesc.getText().toString().trim();
-            String image = etImage.getText().toString().trim();
 
             if (name.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập tên danh mục!", Toast.LENGTH_SHORT).show();
@@ -160,18 +201,21 @@ public class AdminCategoryActivity extends AppCompatActivity {
             if (isEdit) {
                 category.setCategoryName(name);
                 category.setCategoryDescription(desc);
-                category.setImageUrl(image);
+                category.setImageUrl(imageUriString);
+
                 int result = categoryDAO.updatecategory(category);
                 Toast.makeText(this,
                         result > 0 ? "Cập nhật thành công!" : "Cập nhật thất bại!",
                         Toast.LENGTH_SHORT).show();
             } else {
-                Category newItem = new Category(name, desc, image);
+                Category newItem = new Category(name, desc, imageUriString);
                 long result = categoryDAO.insertcategory(newItem);
+
                 Toast.makeText(this,
                         result > 0 ? "Thêm thành công!" : "Thêm thất bại!",
                         Toast.LENGTH_SHORT).show();
             }
+
             loadData();
         });
 
