@@ -74,6 +74,11 @@ public class RegisterActivity extends AppCompatActivity {
             edtFullName.requestFocus();
             return;
         }
+        if(fullName.length() <2){
+            edtFullName.setError("Họ tên phải có ít nhất 2 ký tự");
+            edtFullName.requestFocus();
+            return;
+        }
 
         if (TextUtils.isEmpty(email)) {
             edtEmail.setError("Vui lòng nhập email");
@@ -124,7 +129,7 @@ public class RegisterActivity extends AppCompatActivity {
         if (result > 0) {
             Account accCheck = accountDAO.getAccountByEmailPassword(email, password);
             if (accCheck != null) {
-                Toast.makeText(this, "Đăng ký thành công, DB đã lưu", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Đăng ký thành công", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, "Insert xong nhưng chưa đọc lại được", Toast.LENGTH_SHORT).show();
             }

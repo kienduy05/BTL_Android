@@ -85,7 +85,7 @@ public class AccountAdapter extends ArrayAdapter<Account> {
                                     Toast.LENGTH_SHORT).show();
                             return;
                         }
-                        else if(acc.getRole()==0){
+                        else if(acc.getRole()==1){
                             Toast.makeText(context,
                                     "Không thể xóa! Tài khoản là Admin",
                                     Toast.LENGTH_SHORT).show();
