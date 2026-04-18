@@ -31,6 +31,27 @@ public class AdminAddAccountActivity extends AppCompatActivity {
         btnCancel = findViewById(R.id.btnCancel);
 
         btnSave.setOnClickListener(v -> {
+            String email = edtEmail.getText().toString().trim();
+            String password = edtPassword.getText().toString().trim();
+            String fullName = edtFullName.getText().toString().trim();
+
+            if (email.isEmpty() || password.isEmpty() || fullName.isEmpty()) {
+                Toast.makeText(this, "Nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(fullName.length() <2){
+                Toast.makeText(this, "Họ tên phải có ít nhất 2 ký tự", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                Toast.makeText(this, "Email không hợp lệ", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if (password.length() < 6) {
+                Toast.makeText(this, "Mật khẩu phải có ít nhất 6 ký tự", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             String roleText = edtRole.getText().toString().trim();
             if( Integer.parseInt(roleText) != 0 && Integer.parseInt(roleText) != 1){
                 Toast.makeText(this, "Role phải là 0 hoặc 1", Toast.LENGTH_SHORT).show();
